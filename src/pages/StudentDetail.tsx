@@ -651,11 +651,18 @@ function CreateParentForm({
     <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border border-line bg-surface p-4">
       <h3 className="text-sm font-semibold text-ink">Создать доступ для родителя</h3>
       <Field label="Имя родителя">
-        <input required value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} className="input" />
+        <input
+          required
+          autoComplete="off"
+          value={form.full_name}
+          onChange={(e) => setForm({ ...form, full_name: e.target.value })}
+          className="input"
+        />
       </Field>
       <Field label="Логин (латиницей, без пробелов)">
         <input
           required
+          autoComplete="off"
           value={form.username}
           onChange={(e) => setForm({ ...form, username: e.target.value })}
           placeholder="например, anna_petrova"
@@ -663,7 +670,15 @@ function CreateParentForm({
         />
       </Field>
       <Field label="Пароль">
-        <input type="password" required minLength={6} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} className="input" />
+        <input
+          type="password"
+          required
+          autoComplete="new-password"
+          minLength={6}
+          value={form.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          className="input"
+        />
       </Field>
       <button type="submit" disabled={saving} className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50">
         {saving ? 'Создаём…' : 'Создать доступ'}
