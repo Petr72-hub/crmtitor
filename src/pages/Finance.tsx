@@ -11,7 +11,7 @@ export default function Finance() {
   const [tariffPurchases, setTariffPurchases] = useState<TariffPurchase[]>([])
   const [lessonCounts, setLessonCounts] = useState<Record<string, number>>({})
   const [loading, setLoading] = useState(true)
-  const [showPayment, setShowPayment] = useState(false)
+  const [paymentForm, setPaymentForm] = useState<{ mode: 'create' } | { mode: 'edit'; payment: Payment } | null>(null)
   const [showTariff, setShowTariff] = useState(false)
   const [showTax, setShowTax] = useState(false)
   const [busyId, setBusyId] = useState<string | null>(null)
@@ -42,9 +42,19 @@ export default function Finance() {
     setLoading(false)
   }
 
-  async function addPayment(payload: Partial<Payment>) {
-    await supabase.from('payments').insert(payload)
-    setShowPayment(false)
+  async function savePayment(payload: Partial<Payment>) {
+    if (paymentForm?.mode === 'edit') {
+      await supabase.from('payments').update(payload).eq('id', paymentForm.payment.id)
+    } else {
+      await supabase.from('payments').insert(payload)
+    }
+    setPaymentForm(null)
+    void loadAll()
+  }
+
+  async function deletePayment(id: string) {
+    if (!confirm('Удалить платёж? Это действие нельзя отменить.')) return
+    await supabase.from('payments').delete().eq('id', id)
     void loadAll()
   }
 
@@ -166,7 +176,7 @@ export default function Finance() {
             Тариф
           </button>
           <button
-            onClick={() => setShowPayment(true)}
+            onClick={() => setPaymentForm({ mode: 'create' })}
             className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark"
           >
             + Зафиксировать оплату
@@ -272,11 +282,27 @@ export default function Finance() {
             {payments.slice(0, 10).map((p) => {
               const student = students.find((s) => s.id === p.student_id)
               return (
-                <li key={p.id} className="flex items-center justify-between px-4 py-2.5 text-sm">
+                <li key={p.id} className="group flex items-center justify-between px-4 py-2.5 text-sm">
                   <span className="text-ink-soft">
                     {student?.child_name ?? 'Ученик'} · {p.method} · {formatDate(p.paid_at)}
                   </span>
-                  <span className="font-semibold text-green-600">+{formatMoney(p.amount)}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-green-600">+{formatMoney(p.amount)}</span>
+                    <button
+                      onClick={() => setPaymentForm({ mode: 'edit', payment: p })}
+                      className="rounded px-1.5 py-0.5 text-xs text-faint opacity-0 hover:bg-surface-muted hover:text-ink group-hover:opacity-100"
+                      title="Изменить"
+                    >
+                      ✏️
+                    </button>
+                    <button
+                      onClick={() => deletePayment(p.id)}
+                      className="rounded px-1.5 py-0.5 text-xs text-faint opacity-0 hover:bg-red-50 hover:text-red-600 group-hover:opacity-100"
+                      title="Удалить"
+                    >
+                      🗑
+                    </button>
+                  </div>
                 </li>
               )
             })}
@@ -300,7 +326,14 @@ export default function Finance() {
         </div>
       </div>
 
-      {showPayment && <PaymentForm students={students} onClose={() => setShowPayment(false)} onSubmit={addPayment} />}
+      {paymentForm && (
+        <PaymentForm
+          students={students}
+          initial={paymentForm.mode === 'edit' ? paymentForm.payment : undefined}
+          onClose={() => setPaymentForm(null)}
+          onSubmit={savePayment}
+        />
+      )}
       {showTariff && (
         <TariffForm students={students} onClose={() => setShowTariff(false)} onSubmit={createTariffPurchase} />
       )}
@@ -321,14 +354,21 @@ function Stat({ label, value, sub }: { label: string; value: string; sub?: strin
 
 function PaymentForm({
   students,
+  initial,
   onClose,
   onSubmit,
 }: {
   students: Student[]
+  initial?: Payment
   onClose: () => void
   onSubmit: (payload: Partial<Payment>) => void
 }) {
-  const [form, setForm] = useState({ student_id: '', amount: 0, method: 'Карта', paid_at: todayISO() })
+  const [form, setForm] = useState({
+    student_id: initial?.student_id ?? '',
+    amount: initial?.amount ?? 0,
+    method: initial?.method ?? 'Карта',
+    paid_at: initial?.paid_at ?? todayISO(),
+  })
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -339,7 +379,7 @@ function PaymentForm({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="w-full max-w-md rounded-xl bg-surface p-6 shadow-lg">
-        <h2 className="mb-4 text-lg font-bold text-ink">Новая оплата</h2>
+        <h2 className="mb-4 text-lg font-bold text-ink">{initial ? 'Изменить оплату' : 'Новая оплата'}</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
           <label className="block">
             <span className="mb-1 block text-sm font-medium text-ink-soft">Ученик</span>
@@ -352,24 +392,32 @@ function PaymentForm({
               ))}
             </select>
           </label>
+          <div className="grid grid-cols-2 gap-3">
+            <label className="block">
+              <span className="mb-1 block text-sm font-medium text-ink-soft">Сумма, ₽</span>
+              <input
+                type="number"
+                required
+                min={1}
+                value={form.amount || ''}
+                onChange={(e) => setForm({ ...form, amount: Number(e.target.value) })}
+                className="input"
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm font-medium text-ink-soft">Дата</span>
+              <input
+                type="date"
+                required
+                value={form.paid_at}
+                onChange={(e) => setForm({ ...form, paid_at: e.target.value })}
+                className="input"
+              />
+            </label>
+          </div>
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-ink-soft">Сумма, ₽</span>
-            <input
-              type="number"
-              required
-              min={1}
-              value={form.amount || ''}
-              onChange={(e) => setForm({ ...form, amount: Number(e.target.value) })}
-              className="input"
-            />
-          </label>
-          <label className="block">
-            <span className="mb-1 block text-sm font-medium text-ink-soft">Способ оплаты</span>
-            <select value={form.method} onChange={(e) => setForm({ ...form, method: e.target.value })} className="input">
-              <option>Карта</option>
-              <option>Наличные</option>
-              <option>Перевод</option>
-            </select>
+            <span className="mb-1 block text-sm font-medium text-ink-soft">Способ / комментарий</span>
+            <input value={form.method} onChange={(e) => setForm({ ...form, method: e.target.value })} className="input" placeholder="Карта, наличные, перевод…" />
           </label>
           <p className="text-xs text-faint">
             Для произвольной оплаты не по тарифу. Уроки на баланс ученика не начисляются — для этого используйте кнопку «Тариф».

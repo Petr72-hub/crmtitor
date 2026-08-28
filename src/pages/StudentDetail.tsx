@@ -233,8 +233,14 @@ function InfoTab({
             className="input"
           />
         </Field>
-        <Field label="Доступно занятий (из тарифов)">
-          <input value={Math.max(form.lessons_paid - form.lessons_done, 0)} disabled className="input opacity-60" />
+        <Field label="Остаток занятий">
+          <input
+            type="number"
+            min={0}
+            value={Math.max(form.lessons_paid - form.lessons_done, 0)}
+            onChange={(e) => setForm({ ...form, lessons_paid: form.lessons_done + Math.max(Number(e.target.value), 0) })}
+            className="input"
+          />
         </Field>
         <Field label="Проведено уроков">
           <input value={form.lessons_done} disabled className="input opacity-60" />
