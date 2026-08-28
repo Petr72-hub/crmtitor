@@ -1,29 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
-  <rect width="320" height="320" rx="56" fill="#111111"/>
-  <g transform="translate(10,10)">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 1300">
+  <rect width="1300" height="1300" rx="200" fill="#111111"/>
+  <g transform="translate(168,35)">
     <path
       fill="#C7FF2F"
       fill-rule="evenodd"
-      d="M70 225 L70 90 L78 15 L100 80 L128 40 L140 90 L140 225 Z
-         M90 122 C 104 111 120 119 117 138 C 103 147 87 140 90 122 Z"
+      d="M155 0 L300 175 L415 60 L410 270
+         L410 460 L700 270 L940 270 L410 500
+         L410 540 L680 880 L900 880 L410 540
+         L410 1230 L300 1230
+         Q280 750 155 275
+         Z
+         M220 540 C 250 510 300 520 310 555 C 290 590 235 585 220 540 Z"
     />
-    <g stroke="#C7FF2F" stroke-width="5" stroke-linecap="round" fill="none">
-      <path d="M72 133 C 48 124 28 119 14 114" />
-      <path d="M72 150 C 44 150 22 150 10 150" />
-      <path d="M72 167 C 48 177 28 184 16 191" />
+    <g stroke="#C7FF2F" stroke-width="18" stroke-linecap="round" fill="none">
+      <path d="M225 565 C 150 545 80 530 40 515" />
+      <path d="M222 590 C 145 590 75 592 35 595" />
+      <path d="M225 615 C 150 635 85 650 45 665" />
     </g>
-    <path fill="#C7FF2F" d="M140 143 L252 8 L283 34 Z" />
-    <path fill="#C7FF2F" d="M140 157 L256 292 L286 267 Z" />
     <g fill="#C7FF2F">
-      <line x1="245" y1="205" x2="221" y2="184" stroke="#C7FF2F" stroke-width="5" />
-      <line x1="245" y1="205" x2="270" y2="184" stroke="#C7FF2F" stroke-width="5" />
-      <line x1="245" y1="205" x2="221" y2="227" stroke="#C7FF2F" stroke-width="5" />
-      <line x1="245" y1="205" x2="270" y2="227" stroke="#C7FF2F" stroke-width="5" />
-      <circle cx="245" cy="205" r="11" />
-      <circle cx="221" cy="184" r="7" />
-      <circle cx="270" cy="184" r="7" />
-      <circle cx="221" cy="227" r="7" />
-      <circle cx="270" cy="227" r="7" />
+      <line x1="790" y1="700" x2="880" y2="600" stroke="#C7FF2F" stroke-width="16" />
+      <line x1="790" y1="700" x2="705" y2="590" stroke="#C7FF2F" stroke-width="16" />
+      <line x1="790" y1="700" x2="880" y2="795" stroke="#C7FF2F" stroke-width="16" />
+      <circle cx="790" cy="700" r="38" />
+      <circle cx="880" cy="600" r="48" />
+      <circle cx="705" cy="590" r="36" />
+      <circle cx="880" cy="795" r="28" />
     </g>
   </g>
 </svg>

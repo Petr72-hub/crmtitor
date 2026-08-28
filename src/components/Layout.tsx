@@ -35,7 +35,7 @@ export default function Layout() {
       >
         <div className="flex items-center gap-2 px-4 py-4">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-black p-1.5">
-            <img src="/logo.svg" alt="КЭТАЛИЗАТОР" className="h-full w-full" />
+            <img src="/logo.svg" alt="КЭТАЛИЗАТОР" className="h-full w-full object-contain" />
           </div>
           {!collapsed && <span className="font-heading text-xl tracking-wide text-ink">КЭТАЛИЗАТОР</span>}
         </div>

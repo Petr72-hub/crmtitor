@@ -25,7 +25,7 @@ export default function ParentLogin() {
       <div className="w-full max-w-sm rounded-2xl border border-line bg-surface p-8 shadow-sm">
         <div className="mb-6 flex flex-col items-center">
           <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-black p-3">
-            <img src="/logo.svg" alt="КЭТАЛИЗАТОР" className="h-full w-full" />
+            <img src="/logo.svg" alt="КЭТАЛИЗАТОР" className="h-full w-full object-contain" />
           </div>
           <h1 className="font-heading text-2xl tracking-wide text-ink">Кабинет родителя</h1>
           <p className="mt-1 text-sm text-muted">Успеваемость вашего ребёнка</p>
