@@ -73,7 +73,7 @@ declare
 begin
   select count(*) into users_count from public.profiles;
   meta_role := new.raw_user_meta_data->>'role';
-  insert into public.profiles (id, email, full_name, role, username)
+  insert into public.profiles (id, email, full_name, role, username, parent_of)
   values (
     new.id,
     new.email,
@@ -83,7 +83,8 @@ begin
       when meta_role in ('admin', 'tutor', 'parent') then meta_role
       else 'tutor'
     end,
-    new.raw_user_meta_data->>'username'
+    new.raw_user_meta_data->>'username',
+    nullif(new.raw_user_meta_data->>'student_id', '')::uuid
   );
   return new;
 end;
