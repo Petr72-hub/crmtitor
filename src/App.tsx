@@ -6,16 +6,30 @@ import Dashboard from './pages/Dashboard'
 import Schedule from './pages/Schedule'
 import Leads from './pages/Leads'
 import Students from './pages/Students'
+import StudentDetail from './pages/StudentDetail'
 import Analytics from './pages/Analytics'
 import Finance from './pages/Finance'
 import Users from './pages/Users'
 import ProfilePage from './pages/Profile'
+import ContentNotes from './pages/ContentNotes'
+import TrialPlaybook from './pages/TrialPlaybook'
+import ParentLogin from './pages/parent/ParentLogin'
+import ParentPortal from './pages/parent/ParentPortal'
 import type { Role } from './types'
 
-function RequireAuth({ children }: { children: React.ReactNode }) {
-  const { session, loading } = useAuth()
+function RequireStaffAuth({ children }: { children: React.ReactNode }) {
+  const { session, profile, loading } = useAuth()
   if (loading) return <FullScreenLoading />
   if (!session) return <Navigate to="/login" replace />
+  if (profile?.role === 'parent') return <Navigate to="/parent" replace />
+  return <>{children}</>
+}
+
+function RequireParentAuth({ children }: { children: React.ReactNode }) {
+  const { session, profile, loading } = useAuth()
+  if (loading) return <FullScreenLoading />
+  if (!session) return <Navigate to="/parent/login" replace />
+  if (profile && profile.role !== 'parent') return <Navigate to="/" replace />
   return <>{children}</>
 }
 
@@ -26,22 +40,38 @@ function RequireRole({ roles, children }: { roles: Role[]; children: React.React
 }
 
 function FullScreenLoading() {
-  return <div className="flex h-screen items-center justify-center text-sm text-gray-400">Загрузка…</div>
+  return <div className="flex h-screen items-center justify-center text-sm text-faint">Загрузка…</div>
 }
 
 function AppRoutes() {
-  const { session, loading } = useAuth()
+  const { session, profile, loading } = useAuth()
 
   if (loading) return <FullScreenLoading />
 
   return (
     <Routes>
-      <Route path="/login" element={session ? <Navigate to="/" replace /> : <Login />} />
+      <Route
+        path="/login"
+        element={session && profile?.role !== 'parent' ? <Navigate to="/" replace /> : <Login />}
+      />
+      <Route
+        path="/parent/login"
+        element={session && profile?.role === 'parent' ? <Navigate to="/parent" replace /> : <ParentLogin />}
+      />
+      <Route
+        path="/parent"
+        element={
+          <RequireParentAuth>
+            <ParentPortal />
+          </RequireParentAuth>
+        }
+      />
+
       <Route
         element={
-          <RequireAuth>
+          <RequireStaffAuth>
             <Layout />
-          </RequireAuth>
+          </RequireStaffAuth>
         }
       >
         <Route path="/" element={<Dashboard />} />
@@ -49,16 +79,17 @@ function AppRoutes() {
         <Route
           path="/leads"
           element={
-            <RequireRole roles={['admin', 'manager']}>
+            <RequireRole roles={['owner', 'admin']}>
               <Leads />
             </RequireRole>
           }
         />
         <Route path="/students" element={<Students />} />
+        <Route path="/students/:id" element={<StudentDetail />} />
         <Route
           path="/analytics"
           element={
-            <RequireRole roles={['admin', 'manager']}>
+            <RequireRole roles={['owner', 'admin']}>
               <Analytics />
             </RequireRole>
           }
@@ -66,15 +97,24 @@ function AppRoutes() {
         <Route
           path="/finance"
           element={
-            <RequireRole roles={['admin']}>
+            <RequireRole roles={['owner', 'admin']}>
               <Finance />
+            </RequireRole>
+          }
+        />
+        <Route path="/trial-lesson" element={<TrialPlaybook />} />
+        <Route
+          path="/content"
+          element={
+            <RequireRole roles={['owner', 'admin']}>
+              <ContentNotes />
             </RequireRole>
           }
         />
         <Route
           path="/users"
           element={
-            <RequireRole roles={['admin']}>
+            <RequireRole roles={['owner', 'admin']}>
               <Users />
             </RequireRole>
           }

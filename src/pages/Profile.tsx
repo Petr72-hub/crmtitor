@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { initials } from '../lib/format'
 
-const ROLE_LABELS: Record<string, string> = { admin: 'Администратор', manager: 'Менеджер', tutor: 'Репетитор' }
+const ROLE_LABELS: Record<string, string> = { owner: 'Владелец', admin: 'Администратор', tutor: 'Репетитор' }
 
 export default function ProfilePage() {
   const { profile, session, refreshProfile } = useAuth()
@@ -44,34 +44,34 @@ export default function ProfilePage() {
 
   return (
     <div className="mx-auto max-w-xl p-6">
-      <h1 className="mb-6 text-2xl font-bold text-gray-900">Профиль</h1>
+      <h1 className="mb-6 text-2xl font-bold text-ink">Профиль</h1>
 
-      <div className="mb-6 flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-4">
+      <div className="mb-6 flex items-center gap-4 rounded-xl border border-line bg-surface p-4">
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-800 text-lg font-semibold text-white">
           {initials(profile.full_name)}
         </div>
         <div>
-          <p className="font-semibold text-gray-900">{profile.full_name}</p>
-          <p className="text-sm text-gray-500">{session?.user.email}</p>
-          <span className="mt-1 inline-block rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700">
+          <p className="font-semibold text-ink">{profile.full_name}</p>
+          <p className="text-sm text-muted">{session?.user.email}</p>
+          <span className="mt-1 inline-block rounded-full bg-brand/10 px-2 py-0.5 text-xs font-medium text-brand">
             {ROLE_LABELS[profile.role]}
           </span>
         </div>
       </div>
 
-      <form onSubmit={handleSaveName} className="mb-6 rounded-xl border border-gray-200 bg-white p-4">
-        <h2 className="mb-3 text-sm font-semibold text-gray-800">Имя</h2>
+      <form onSubmit={handleSaveName} className="mb-6 rounded-xl border border-line bg-surface p-4">
+        <h2 className="mb-3 text-sm font-semibold text-ink">Имя</h2>
         <div className="flex gap-2">
           <input value={fullName} onChange={(e) => setFullName(e.target.value)} className="input" />
-          <button type="submit" disabled={saving} className="shrink-0 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50">
+          <button type="submit" disabled={saving} className="shrink-0 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50">
             Сохранить
           </button>
         </div>
         {savedMsg && <p className="mt-2 text-sm text-green-600">{savedMsg}</p>}
       </form>
 
-      <form onSubmit={handleChangePassword} className="rounded-xl border border-gray-200 bg-white p-4">
-        <h2 className="mb-3 text-sm font-semibold text-gray-800">Сменить пароль</h2>
+      <form onSubmit={handleChangePassword} className="rounded-xl border border-line bg-surface p-4">
+        <h2 className="mb-3 text-sm font-semibold text-ink">Сменить пароль</h2>
         <div className="flex gap-2">
           <input
             type="password"
@@ -84,7 +84,7 @@ export default function ProfilePage() {
             Обновить
           </button>
         </div>
-        {pwMsg && <p className="mt-2 text-sm text-gray-600">{pwMsg}</p>}
+        {pwMsg && <p className="mt-2 text-sm text-muted">{pwMsg}</p>}
       </form>
     </div>
   )

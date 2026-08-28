@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640">
+  <g fill="none" stroke="#4169FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- DNA helix top-left -->
+    <path d="M40 10 C 60 30, 20 50, 40 70 C 60 90, 20 110, 40 130" />
+    <path d="M60 10 C 40 30, 80 50, 60 70 C 40 90, 80 110, 60 130" />
+    <path d="M40 10 L60 10 M42 30 L58 30 M40 50 L60 50 M42 70 L58 70 M40 90 L60 90 M42 110 L58 110 M40 130 L60 130" />
+
+    <!-- hexagon molecule with substituents, mid-right -->
+    <path d="M360 40 L390 25 L420 40 L420 70 L390 85 L360 70 Z" />
+    <circle cx="360" cy="40" r="3" />
+    <circle cx="420" cy="70" r="3" />
+    <path d="M390 25 L390 5" />
+
+    <!-- flask bottom-left -->
+    <path d="M55 300 L55 330 L30 380 Q40 392 55 392 L85 392 Q100 392 110 380 L85 330 L85 300 Z" />
+    <path d="M50 300 L90 300" />
+
+    <!-- CH3 label -->
+    <text x="330" y="230" font-family="Arial, sans-serif" font-size="20" fill="#4169FF" stroke="none">CH3</text>
+
+    <!-- scattered small circles (atoms) -->
+    <circle cx="140" cy="60" r="4" />
+    <circle cx="260" cy="20" r="3" />
+    <circle cx="440" cy="160" r="4" />
+    <circle cx="20" cy="220" r="3" />
+    <circle cx="300" cy="440" r="4" />
+    <circle cx="440" cy="400" r="3" />
+    <circle cx="590" cy="90" r="3" />
+    <circle cx="560" cy="480" r="4" />
+    <circle cx="150" cy="560" r="3" />
+
+    <!-- hexagon ring, far bottom-right -->
+    <path d="M540 540 L568 526 L596 540 L596 568 L568 582 L540 568 Z" />
+    <circle cx="596" cy="568" r="3" />
+  </g>
+
+  <g fill="none" stroke="#C7FF2F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- second DNA helix, bottom-right -->
+    <path d="M400 340 C 420 360, 380 380, 400 400 C 420 420, 380 440, 400 460" />
+    <path d="M420 340 C 400 360, 440 380, 420 400 C 400 420, 440 440, 420 460" />
+    <path d="M400 340 L420 340 M402 360 L418 360 M400 380 L420 380 M402 400 L418 400 M400 420 L420 420 M402 440 L418 440 M400 460 L420 460" />
+
+    <!-- pentagon sugar ring, top-right area -->
+    <path d="M230 90 L255 75 L280 90 L272 118 L238 118 Z" />
+    <circle cx="255" cy="75" r="3" />
+
+    <!-- leaf, top area -->
+    <path d="M140 150 C 170 140, 190 160, 180 190 C 150 200, 130 180, 140 150 Z" />
+    <path d="M143 152 L177 187" />
+
+    <!-- leaf, bottom -->
+    <path d="M180 400 C 210 390, 230 410, 220 440 C 190 450, 170 430, 180 400 Z" />
+    <path d="M183 402 L217 437" />
+
+    <!-- hexagon ring, bottom middle -->
+    <path d="M230 330 L258 316 L286 330 L286 358 L258 372 L230 358 Z" />
+    <circle cx="230" cy="358" r="3" />
+
+    <!-- flask, top-right -->
+    <path d="M430 220 L430 245 L455 285 Q447 295 435 295 L410 295 Q398 295 390 285 L415 245 L415 220 Z" />
+    <path d="M427 220 L458 220" />
+
+    <!-- leaf, far right -->
+    <path d="M560 200 C 590 190, 610 210, 600 240 C 570 250, 550 230, 560 200 Z" />
+    <path d="M563 202 L597 237" />
+
+    <!-- small DNA fragment, bottom-left corner -->
+    <path d="M20 480 C 35 495, 10 510, 20 525 C 35 540, 10 555, 20 570" />
+    <path d="M35 480 C 20 495, 45 510, 35 525 C 20 540, 45 555, 35 570" />
+  </g>
+</svg>

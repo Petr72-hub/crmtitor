@@ -70,7 +70,7 @@ export default function Finance() {
   const payoutRows = useMemo(
     () =>
       tutors
-        .filter((t) => t.role === 'tutor' || t.role === 'manager')
+        .filter((t) => t.role === 'tutor' || t.role === 'admin')
         .map((t) => {
           const doneLessons = lessonCounts[t.id] ?? 0
           const earned = doneLessons * Number(t.rate_per_lesson || 0)
@@ -80,15 +80,15 @@ export default function Finance() {
     [tutors, lessonCounts, payouts],
   )
 
-  if (loading) return <div className="p-6 text-sm text-gray-400">Загрузка…</div>
+  if (loading) return <div className="p-6 text-sm text-faint">Загрузка…</div>
 
   return (
     <div className="p-6">
       <header className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Финансы</h1>
+        <h1 className="text-2xl font-bold text-ink">Финансы</h1>
         <button
           onClick={() => setShowPayment(true)}
-          className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+          className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
         >
           + Зафиксировать оплату
         </button>
@@ -101,12 +101,12 @@ export default function Finance() {
         <Stat label="ДОЛЖНИКИ" value={String(debtors.length)} sub={`${debtors.reduce((s, d) => s + (d.lessons_paid - d.lessons_done), 0)} уроков`} />
       </div>
 
-      <div className="mb-6 overflow-hidden rounded-xl border border-gray-200 bg-white">
-        <div className="border-b border-gray-100 px-4 py-3">
-          <h2 className="text-sm font-semibold text-gray-800">Расчёт выплат по репетиторам</h2>
+      <div className="mb-6 overflow-hidden rounded-xl border border-line bg-surface">
+        <div className="border-b border-line-soft px-4 py-3">
+          <h2 className="text-sm font-semibold text-ink">Расчёт выплат по репетиторам</h2>
         </div>
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+          <thead className="bg-surface-muted text-left text-xs font-medium uppercase tracking-wide text-muted">
             <tr>
               <th className="px-4 py-2">Репетитор</th>
               <th className="px-4 py-2">Ставка</th>
@@ -117,20 +117,20 @@ export default function Finance() {
               <th className="px-4 py-2"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-line-soft">
             {payoutRows.map((row) => (
               <tr key={row.tutor.id}>
-                <td className="px-4 py-2.5 font-medium text-gray-900">{row.tutor.full_name}</td>
-                <td className="px-4 py-2.5 text-gray-700">{formatMoney(row.tutor.rate_per_lesson)}</td>
-                <td className="px-4 py-2.5 text-gray-700">{row.doneLessons}</td>
-                <td className="px-4 py-2.5 text-gray-700">{formatMoney(row.earned)}</td>
-                <td className="px-4 py-2.5 text-gray-700">{formatMoney(row.paidOut)}</td>
-                <td className="px-4 py-2.5 font-semibold text-gray-900">{formatMoney(row.owed)}</td>
+                <td className="px-4 py-2.5 font-medium text-ink">{row.tutor.full_name}</td>
+                <td className="px-4 py-2.5 text-ink-soft">{formatMoney(row.tutor.rate_per_lesson)}</td>
+                <td className="px-4 py-2.5 text-ink-soft">{row.doneLessons}</td>
+                <td className="px-4 py-2.5 text-ink-soft">{formatMoney(row.earned)}</td>
+                <td className="px-4 py-2.5 text-ink-soft">{formatMoney(row.paidOut)}</td>
+                <td className="px-4 py-2.5 font-semibold text-ink">{formatMoney(row.owed)}</td>
                 <td className="px-4 py-2.5 text-right">
                   {row.owed > 0 && (
                     <button
                       onClick={() => payTutor(row.tutor.id, row.owed, row.doneLessons)}
-                      className="rounded-lg bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200"
+                      className="rounded-lg bg-surface-muted px-3 py-1 text-xs font-medium text-ink-soft hover:bg-line"
                     >
                       Выплатить
                     </button>
@@ -143,38 +143,38 @@ export default function Finance() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-          <div className="border-b border-gray-100 px-4 py-3">
-            <h2 className="text-sm font-semibold text-gray-800">Последние платежи</h2>
+        <div className="overflow-hidden rounded-xl border border-line bg-surface">
+          <div className="border-b border-line-soft px-4 py-3">
+            <h2 className="text-sm font-semibold text-ink">Последние платежи</h2>
           </div>
-          <ul className="divide-y divide-gray-100">
+          <ul className="divide-y divide-line-soft">
             {payments.slice(0, 10).map((p) => {
               const student = students.find((s) => s.id === p.student_id)
               return (
                 <li key={p.id} className="flex items-center justify-between px-4 py-2.5 text-sm">
-                  <span className="text-gray-700">
+                  <span className="text-ink-soft">
                     {student?.child_name ?? 'Ученик'} · {formatDate(p.paid_at)}
                   </span>
                   <span className="font-semibold text-green-600">+{formatMoney(p.amount)}</span>
                 </li>
               )
             })}
-            {payments.length === 0 && <li className="px-4 py-6 text-center text-gray-400">Платежей ещё нет</li>}
+            {payments.length === 0 && <li className="px-4 py-6 text-center text-faint">Платежей ещё нет</li>}
           </ul>
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-          <div className="border-b border-gray-100 px-4 py-3">
-            <h2 className="text-sm font-semibold text-gray-800">Ученики с задолженностью</h2>
+        <div className="overflow-hidden rounded-xl border border-line bg-surface">
+          <div className="border-b border-line-soft px-4 py-3">
+            <h2 className="text-sm font-semibold text-ink">Ученики с задолженностью</h2>
           </div>
-          <ul className="divide-y divide-gray-100">
+          <ul className="divide-y divide-line-soft">
             {debtors.map((s) => (
               <li key={s.id} className="flex items-center justify-between px-4 py-2.5 text-sm">
-                <span className="text-gray-700">{s.child_name}</span>
+                <span className="text-ink-soft">{s.child_name}</span>
                 <span className="font-semibold text-red-600">{s.lessons_paid - s.lessons_done} урока</span>
               </li>
             ))}
-            {debtors.length === 0 && <li className="px-4 py-6 text-center text-gray-400">Должников нет</li>}
+            {debtors.length === 0 && <li className="px-4 py-6 text-center text-faint">Должников нет</li>}
           </ul>
         </div>
       </div>
@@ -186,10 +186,10 @@ export default function Finance() {
 
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4">
-      <p className="text-xs font-medium tracking-wide text-gray-500">{label}</p>
-      <p className="mt-1 text-2xl font-bold text-gray-900">{value}</p>
-      {sub && <p className="mt-0.5 text-xs text-gray-400">{sub}</p>}
+    <div className="rounded-xl border border-line bg-surface p-4">
+      <p className="text-xs font-medium tracking-wide text-muted">{label}</p>
+      <p className="mt-1 text-2xl font-bold text-ink">{value}</p>
+      {sub && <p className="mt-0.5 text-xs text-faint">{sub}</p>}
     </div>
   )
 }
@@ -213,11 +213,11 @@ function PaymentForm({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
-        <h2 className="mb-4 text-lg font-bold text-gray-900">Новая оплата</h2>
+      <div className="w-full max-w-md rounded-xl bg-surface p-6 shadow-lg">
+        <h2 className="mb-4 text-lg font-bold text-ink">Новая оплата</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700">Ученик</span>
+            <span className="mb-1 block text-sm font-medium text-ink-soft">Ученик</span>
             <select required value={form.student_id} onChange={(e) => setForm({ ...form, student_id: e.target.value })} className="input">
               <option value="">Выберите ученика</option>
               {students.map((s) => (
@@ -228,7 +228,7 @@ function PaymentForm({
             </select>
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700">Сумма, ₽</span>
+            <span className="mb-1 block text-sm font-medium text-ink-soft">Сумма, ₽</span>
             <input
               type="number"
               required
@@ -239,20 +239,20 @@ function PaymentForm({
             />
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700">Способ оплаты</span>
+            <span className="mb-1 block text-sm font-medium text-ink-soft">Способ оплаты</span>
             <select value={form.method} onChange={(e) => setForm({ ...form, method: e.target.value })} className="input">
               <option>Карта</option>
               <option>Наличные</option>
               <option>Перевод</option>
             </select>
           </label>
-          <p className="text-xs text-gray-400">Оплата автоматически прибавит 8 уроков на баланс ученика.</p>
+          <p className="text-xs text-faint">Оплата автоматически прибавит 8 уроков на баланс ученика.</p>
 
           <div className="flex justify-end gap-2 pt-2">
-            <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-100">
+            <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-muted hover:bg-surface-muted">
               Отмена
             </button>
-            <button type="submit" className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+            <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
               Сохранить
             </button>
           </div>

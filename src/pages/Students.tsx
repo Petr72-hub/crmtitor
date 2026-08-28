@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import type { Profile, Student } from '../types'
@@ -6,6 +7,7 @@ import { initials } from '../lib/format'
 
 export default function Students() {
   const { profile } = useAuth()
+  const navigate = useNavigate()
   const [students, setStudents] = useState<Student[]>([])
   const [tutors, setTutors] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
@@ -54,13 +56,13 @@ export default function Students() {
   return (
     <div className="p-6">
       <header className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Ученики <span className="text-gray-400">{students.length} · активных {activeCount} · долги {debtCount}</span>
+        <h1 className="text-2xl font-bold text-ink">
+          Ученики <span className="text-faint">{students.length} · активных {activeCount} · долги {debtCount}</span>
         </h1>
         {profile?.role !== 'tutor' && (
           <button
             onClick={() => setShowForm(true)}
-            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+            className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
           >
             + Добавить ученика
           </button>
@@ -86,7 +88,7 @@ export default function Students() {
             key={value}
             onClick={() => setFilter(value)}
             className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-              filter === value ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              filter === value ? 'bg-brand text-white' : 'bg-surface-muted text-muted hover:bg-line'
             }`}
           >
             {label}
@@ -95,11 +97,11 @@ export default function Students() {
       </div>
 
       {loading ? (
-        <p className="text-sm text-gray-400">Загрузка…</p>
+        <p className="text-sm text-faint">Загрузка…</p>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+        <div className="overflow-hidden rounded-xl border border-line bg-surface">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+            <thead className="bg-surface-muted text-left text-xs font-medium uppercase tracking-wide text-muted">
               <tr>
                 <th className="px-4 py-2">Имя</th>
                 <th className="px-4 py-2">Класс</th>
@@ -109,34 +111,34 @@ export default function Students() {
                 <th className="px-4 py-2">Статус</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-line-soft">
               {filtered.map((s) => {
                 const tutor = tutors.find((t) => t.id === s.tutor_id)
                 const balance = s.lessons_paid - s.lessons_done
                 return (
-                  <tr key={s.id} className="hover:bg-gray-50">
+                  <tr key={s.id} onClick={() => navigate(`/students/${s.id}`)} className="cursor-pointer hover:bg-surface-muted">
                     <td className="px-4 py-2.5">
                       <div className="flex items-center gap-2">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-indigo-100 text-xs font-semibold text-indigo-700">
+                        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand/15 text-xs font-semibold text-brand">
                           {initials(s.child_name)}
                         </div>
                         <div>
-                          <p className="font-medium text-gray-900">{s.child_name}</p>
-                          <p className="text-xs text-gray-500">{s.parent_name}</p>
+                          <p className="font-medium text-ink">{s.child_name}</p>
+                          <p className="text-xs text-muted">{s.parent_name}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-2.5 text-gray-700">{s.grade}</td>
-                    <td className="px-4 py-2.5 text-gray-700">{s.goal}</td>
-                    <td className="px-4 py-2.5 text-gray-700">{tutor?.full_name ?? '—'}</td>
-                    <td className="px-4 py-2.5 text-gray-700">
+                    <td className="px-4 py-2.5 text-ink-soft">{s.grade}</td>
+                    <td className="px-4 py-2.5 text-ink-soft">{s.goal}</td>
+                    <td className="px-4 py-2.5 text-ink-soft">{tutor?.full_name ?? '—'}</td>
+                    <td className="px-4 py-2.5 text-ink-soft">
                       {s.lessons_done}/{s.lessons_paid}
                       {balance < 0 && <span className="ml-1 font-medium text-red-600">{balance}</span>}
                     </td>
                     <td className="px-4 py-2.5">
                       <span
                         className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                          s.status === 'active' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'
+                          s.status === 'active' ? 'bg-green-50 text-green-700' : 'bg-surface-muted text-muted'
                         }`}
                       >
                         {s.status === 'active' ? 'Активен' : 'Спит'}
@@ -147,7 +149,7 @@ export default function Students() {
               })}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-gray-400">
+                  <td colSpan={6} className="px-4 py-8 text-center text-faint">
                     Ничего не найдено
                   </td>
                 </tr>
@@ -187,29 +189,29 @@ function StudentForm({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
-        <h2 className="mb-4 text-lg font-bold text-gray-900">Новый ученик</h2>
+      <div className="w-full max-w-md rounded-xl bg-surface p-6 shadow-lg">
+        <h2 className="mb-4 text-lg font-bold text-ink">Новый ученик</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700">Имя родителя</span>
+            <span className="mb-1 block text-sm font-medium text-ink-soft">Имя родителя</span>
             <input required value={form.parent_name} onChange={(e) => setForm({ ...form, parent_name: e.target.value })} className="input" />
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700">Имя ребёнка</span>
+            <span className="mb-1 block text-sm font-medium text-ink-soft">Имя ребёнка</span>
             <input required value={form.child_name} onChange={(e) => setForm({ ...form, child_name: e.target.value })} className="input" />
           </label>
           <div className="grid grid-cols-2 gap-3">
             <label className="block">
-              <span className="mb-1 block text-sm font-medium text-gray-700">Класс</span>
+              <span className="mb-1 block text-sm font-medium text-ink-soft">Класс</span>
               <input value={form.grade} onChange={(e) => setForm({ ...form, grade: e.target.value })} className="input" />
             </label>
             <label className="block">
-              <span className="mb-1 block text-sm font-medium text-gray-700">Цель</span>
+              <span className="mb-1 block text-sm font-medium text-ink-soft">Цель</span>
               <input value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })} className="input" />
             </label>
           </div>
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700">Репетитор</span>
+            <span className="mb-1 block text-sm font-medium text-ink-soft">Репетитор</span>
             <select value={form.tutor_id} onChange={(e) => setForm({ ...form, tutor_id: e.target.value })} className="input">
               <option value="">Не назначен</option>
               {tutors.map((t) => (
@@ -220,7 +222,7 @@ function StudentForm({
             </select>
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700">Оплачено уроков</span>
+            <span className="mb-1 block text-sm font-medium text-ink-soft">Оплачено уроков</span>
             <input
               type="number"
               min={0}
@@ -231,10 +233,10 @@ function StudentForm({
           </label>
 
           <div className="flex justify-end gap-2 pt-2">
-            <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-100">
+            <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-muted hover:bg-surface-muted">
               Отмена
             </button>
-            <button type="submit" className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+            <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
               Добавить
             </button>
           </div>

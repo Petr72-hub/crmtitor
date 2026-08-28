@@ -58,19 +58,19 @@ export default function Analytics() {
     count: leads.filter((l) => l.status === s.value).length,
   }))
 
-  if (loading) return <div className="p-6 text-sm text-gray-400">Загрузка…</div>
+  if (loading) return <div className="p-6 text-sm text-faint">Загрузка…</div>
 
   return (
     <div className="p-6">
       <header className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-gray-900">Аналитика</h1>
+        <h1 className="text-2xl font-bold text-ink">Аналитика</h1>
         <div className="flex gap-1.5">
           {RANGE_OPTIONS.map((opt) => (
             <button
               key={opt.value}
               onClick={() => setRange(opt.value)}
               className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-                range === opt.value ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                range === opt.value ? 'bg-brand text-white' : 'bg-surface-muted text-muted hover:bg-line'
               }`}
             >
               {opt.label}
@@ -85,8 +85,8 @@ export default function Analytics() {
         <Stat label="ЛИДОВ ВСЕГО" value={String(leads.length)} />
       </div>
 
-      <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4">
-        <h2 className="mb-3 text-sm font-semibold text-gray-800">Воронка по статусам</h2>
+      <div className="mb-6 rounded-xl border border-line bg-surface p-4">
+        <h2 className="mb-3 text-sm font-semibold text-ink">Воронка по статусам</h2>
         <div style={{ width: '100%', height: 260 }}>
           <ResponsiveContainer>
             <BarChart data={funnel} layout="vertical" margin={{ left: 20 }}>
@@ -94,18 +94,18 @@ export default function Analytics() {
               <XAxis type="number" allowDecimals={false} />
               <YAxis type="category" dataKey="status" width={140} tick={{ fontSize: 12 }} />
               <Tooltip />
-              <Bar dataKey="count" fill="#6366f1" radius={[0, 4, 4, 0]} />
+              <Bar dataKey="count" fill="#4169ff" radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-        <div className="border-b border-gray-100 px-4 py-3">
-          <h2 className="text-sm font-semibold text-gray-800">Источники по эффективности</h2>
+      <div className="overflow-hidden rounded-xl border border-line bg-surface">
+        <div className="border-b border-line-soft px-4 py-3">
+          <h2 className="text-sm font-semibold text-ink">Источники по эффективности</h2>
         </div>
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+          <thead className="bg-surface-muted text-left text-xs font-medium uppercase tracking-wide text-muted">
             <tr>
               <th className="px-4 py-2">Источник</th>
               <th className="px-4 py-2">Лиды</th>
@@ -113,18 +113,18 @@ export default function Analytics() {
               <th className="px-4 py-2">Оплат</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-line-soft">
             {bySource.map((row) => (
               <tr key={row.source}>
-                <td className="px-4 py-2.5 font-medium text-gray-900">{row.source}</td>
-                <td className="px-4 py-2.5 text-gray-700">{row.leads}</td>
-                <td className="px-4 py-2.5 text-gray-700">{row.conversion}%</td>
-                <td className="px-4 py-2.5 text-gray-700">{row.paid}</td>
+                <td className="px-4 py-2.5 font-medium text-ink">{row.source}</td>
+                <td className="px-4 py-2.5 text-ink-soft">{row.leads}</td>
+                <td className="px-4 py-2.5 text-ink-soft">{row.conversion}%</td>
+                <td className="px-4 py-2.5 text-ink-soft">{row.paid}</td>
               </tr>
             ))}
             {bySource.length === 0 && (
               <tr>
-                <td colSpan={4} className="px-4 py-6 text-center text-gray-400">
+                <td colSpan={4} className="px-4 py-6 text-center text-faint">
                   Нет данных за период
                 </td>
               </tr>
@@ -138,9 +138,9 @@ export default function Analytics() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4">
-      <p className="text-xs font-medium tracking-wide text-gray-500">{label}</p>
-      <p className="mt-1 text-2xl font-bold text-gray-900">{value}</p>
+    <div className="rounded-xl border border-line bg-surface p-4">
+      <p className="text-xs font-medium tracking-wide text-muted">{label}</p>
+      <p className="mt-1 text-2xl font-bold text-ink">{value}</p>
     </div>
   )
 }

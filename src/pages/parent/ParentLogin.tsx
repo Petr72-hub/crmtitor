@@ -1,9 +1,9 @@
 import { useState, type FormEvent } from 'react'
-import { useAuth } from '../contexts/AuthContext'
+import { supabase } from '../../lib/supabase'
+import { usernameToParentEmail } from '../../lib/parentAuth'
 
-export default function Login() {
-  const { signIn } = useAuth()
-  const [email, setEmail] = useState('')
+export default function ParentLogin() {
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -12,32 +12,34 @@ export default function Login() {
     e.preventDefault()
     setError(null)
     setLoading(true)
-    const { error } = await signIn(email, password)
+    const { error } = await supabase.auth.signInWithPassword({
+      email: usernameToParentEmail(username),
+      password,
+    })
     setLoading(false)
-    if (error) setError(error)
+    if (error) setError('Неверный логин или пароль')
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-surface-muted px-4">
-      <div className="w-full max-w-sm rounded-2xl bg-surface p-8 shadow-sm">
+    <div className="flex min-h-screen items-center justify-center bg-page px-4">
+      <div className="w-full max-w-sm rounded-2xl border border-line bg-surface p-8 shadow-sm">
         <div className="mb-6 flex flex-col items-center">
           <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-brand text-xl font-bold text-white">
             C
           </div>
-          <h1 className="text-xl font-bold text-ink">MyCRM</h1>
-          <p className="mt-1 text-sm text-muted">Войдите в свой аккаунт</p>
+          <h1 className="text-xl font-bold text-ink">Кабинет родителя</h1>
+          <p className="mt-1 text-sm text-muted">Успеваемость вашего ребёнка</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-ink-soft">Email</label>
+            <label className="mb-1 block text-sm font-medium text-ink-soft">Логин</label>
             <input
-              type="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-line px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
-              placeholder="you@example.com"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="input"
+              placeholder="выданный логин"
             />
           </div>
           <div>
@@ -47,14 +49,12 @@ export default function Login() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-line px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+              className="input"
               placeholder="••••••••"
             />
           </div>
 
-          {error && (
-            <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
-          )}
+          {error && <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>}
 
           <button
             type="submit"

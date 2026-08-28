@@ -89,23 +89,23 @@ export default function Schedule() {
   return (
     <div className="p-6">
       <header className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-gray-900">Расписание</h1>
+        <h1 className="text-2xl font-bold text-ink">Расписание</h1>
         <div className="flex items-center gap-2">
-          <button onClick={() => setWeekStart(addDays(weekStart, -7))} className="rounded-lg border border-gray-200 px-3 py-1.5 text-sm hover:bg-gray-50">
+          <button onClick={() => setWeekStart(addDays(weekStart, -7))} className="rounded-lg border border-line px-3 py-1.5 text-sm hover:bg-surface-muted">
             ←
           </button>
-          <span className="text-sm font-medium text-gray-700">
+          <span className="text-sm font-medium text-ink-soft">
             {iso(weekStart)} — {iso(addDays(weekStart, 6))}
           </span>
-          <button onClick={() => setWeekStart(addDays(weekStart, 7))} className="rounded-lg border border-gray-200 px-3 py-1.5 text-sm hover:bg-gray-50">
+          <button onClick={() => setWeekStart(addDays(weekStart, 7))} className="rounded-lg border border-line px-3 py-1.5 text-sm hover:bg-surface-muted">
             →
           </button>
-          <button onClick={() => setWeekStart(startOfWeek(new Date()))} className="rounded-lg border border-gray-200 px-3 py-1.5 text-sm hover:bg-gray-50">
+          <button onClick={() => setWeekStart(startOfWeek(new Date()))} className="rounded-lg border border-line px-3 py-1.5 text-sm hover:bg-surface-muted">
             Сегодня
           </button>
           <button
             onClick={() => setShowForm(true)}
-            className="rounded-lg bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-indigo-700"
+            className="rounded-lg bg-brand px-4 py-1.5 text-sm font-semibold text-white hover:bg-brand-dark"
           >
             + Урок
           </button>
@@ -113,17 +113,17 @@ export default function Schedule() {
       </header>
 
       {loading ? (
-        <p className="text-sm text-gray-400">Загрузка…</p>
+        <p className="text-sm text-faint">Загрузка…</p>
       ) : (
         <div className="grid grid-cols-7 gap-3">
           {weekDays.map((day, i) => {
             const dayLessons = lessons.filter((l) => l.lesson_date === iso(day))
             const isToday = iso(day) === iso(new Date())
             return (
-              <div key={i} className={`rounded-xl border bg-white p-2 ${isToday ? 'border-indigo-300 ring-1 ring-indigo-200' : 'border-gray-200'}`}>
+              <div key={i} className={`rounded-xl border bg-surface p-2 ${isToday ? 'border-brand/50 ring-1 ring-brand/30' : 'border-line'}`}>
                 <div className="mb-2 text-center">
-                  <p className="text-xs font-medium uppercase text-gray-400">{WEEKDAYS[i]}</p>
-                  <p className={`text-sm font-bold ${isToday ? 'text-indigo-600' : 'text-gray-800'}`}>{day.getDate()}</p>
+                  <p className="text-xs font-medium uppercase text-faint">{WEEKDAYS[i]}</p>
+                  <p className={`text-sm font-bold ${isToday ? 'text-brand' : 'text-ink'}`}>{day.getDate()}</p>
                 </div>
                 <div className="space-y-1.5">
                   {dayLessons.map((l) => (
@@ -135,7 +135,7 @@ export default function Schedule() {
                           ? 'bg-green-50 text-green-700 line-through decoration-green-400'
                           : l.status === 'cancelled'
                             ? 'bg-red-50 text-red-500 line-through'
-                            : 'bg-indigo-50 text-indigo-700'
+                            : 'bg-brand/10 text-brand'
                       }`}
                     >
                       <p className="font-semibold">{l.start_time.slice(0, 5)} {l.student_name}</p>
@@ -143,7 +143,7 @@ export default function Schedule() {
                       <p className="truncate opacity-60">{l.tutor_name}</p>
                     </button>
                   ))}
-                  {dayLessons.length === 0 && <p className="py-4 text-center text-xs text-gray-300">—</p>}
+                  {dayLessons.length === 0 && <p className="py-4 text-center text-xs text-faint">—</p>}
                 </div>
               </div>
             )
@@ -188,11 +188,11 @@ function LessonForm({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
-        <h2 className="mb-4 text-lg font-bold text-gray-900">Новый урок</h2>
+      <div className="w-full max-w-md rounded-xl bg-surface p-6 shadow-lg">
+        <h2 className="mb-4 text-lg font-bold text-ink">Новый урок</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700">Ученик</span>
+            <span className="mb-1 block text-sm font-medium text-ink-soft">Ученик</span>
             <select required value={form.student_id} onChange={(e) => setForm({ ...form, student_id: e.target.value })} className="input">
               <option value="">Выберите ученика</option>
               {students.map((s) => (
@@ -203,7 +203,7 @@ function LessonForm({
             </select>
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700">Репетитор</span>
+            <span className="mb-1 block text-sm font-medium text-ink-soft">Репетитор</span>
             <select required value={form.tutor_id} onChange={(e) => setForm({ ...form, tutor_id: e.target.value })} className="input">
               <option value="">Выберите репетитора</option>
               {tutors.map((t) => (
@@ -215,24 +215,24 @@ function LessonForm({
           </label>
           <div className="grid grid-cols-2 gap-3">
             <label className="block">
-              <span className="mb-1 block text-sm font-medium text-gray-700">Дата</span>
+              <span className="mb-1 block text-sm font-medium text-ink-soft">Дата</span>
               <input type="date" required value={form.lesson_date} onChange={(e) => setForm({ ...form, lesson_date: e.target.value })} className="input" />
             </label>
             <label className="block">
-              <span className="mb-1 block text-sm font-medium text-gray-700">Время</span>
+              <span className="mb-1 block text-sm font-medium text-ink-soft">Время</span>
               <input type="time" required value={form.start_time} onChange={(e) => setForm({ ...form, start_time: e.target.value })} className="input" />
             </label>
           </div>
           <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-700">Тема (необязательно)</span>
+            <span className="mb-1 block text-sm font-medium text-ink-soft">Тема (необязательно)</span>
             <input value={form.topic} onChange={(e) => setForm({ ...form, topic: e.target.value })} className="input" />
           </label>
 
           <div className="flex justify-end gap-2 pt-2">
-            <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-100">
+            <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-muted hover:bg-surface-muted">
               Отмена
             </button>
-            <button type="submit" className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+            <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
               Добавить
             </button>
           </div>

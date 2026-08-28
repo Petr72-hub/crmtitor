@@ -42,27 +42,27 @@ export default function Leads() {
   return (
     <div className="flex h-full flex-col p-6">
       <header className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Лиды · {total}</h1>
+        <h1 className="text-2xl font-bold text-ink">Лиды · {total}</h1>
         <button
           onClick={() => setShowForm(true)}
-          className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+          className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
         >
           + Добавить лида
         </button>
       </header>
 
       {loading ? (
-        <p className="text-sm text-gray-400">Загрузка…</p>
+        <p className="text-sm text-faint">Загрузка…</p>
       ) : (
         <div className="flex-1 overflow-x-auto">
           <div className="flex gap-3 pb-4" style={{ minWidth: 'max-content' }}>
             {LEAD_STATUSES.map((col) => {
               const colLeads = leads.filter((l) => l.status === col.value)
               return (
-                <div key={col.value} className="flex w-72 shrink-0 flex-col rounded-xl bg-gray-50">
-                  <div className="flex items-center justify-between rounded-t-xl border-b border-gray-200 px-3 py-2">
-                    <span className="text-sm font-semibold text-gray-700">{col.label}</span>
-                    <span className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600">
+                <div key={col.value} className="flex w-72 shrink-0 flex-col rounded-xl bg-surface-muted">
+                  <div className="flex items-center justify-between rounded-t-xl border-b border-line px-3 py-2">
+                    <span className="text-sm font-semibold text-ink-soft">{col.label}</span>
+                    <span className="rounded-full bg-line px-2 py-0.5 text-xs font-medium text-muted">
                       {colLeads.length}
                     </span>
                   </div>
@@ -96,30 +96,30 @@ function LeadCard({
   const daysAgo = Math.floor((Date.now() - new Date(lead.updated_at).getTime()) / 86400000)
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
+    <div className="rounded-lg border border-line bg-surface p-3 shadow-sm">
       <div className="mb-2 flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-xs font-semibold text-indigo-700">
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand/15 text-xs font-semibold text-brand">
             {initials(lead.parent_name)}
           </div>
           <div>
-            <p className="text-sm font-medium leading-tight text-gray-900">{lead.parent_name}</p>
-            <p className="text-xs leading-tight text-gray-500">
+            <p className="text-sm font-medium leading-tight text-ink">{lead.parent_name}</p>
+            <p className="text-xs leading-tight text-muted">
               {lead.child_name} {lead.grade && `· ${lead.grade}`}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="mb-2 flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-        <span className="rounded bg-gray-100 px-1.5 py-0.5">{lead.source}</span>
-        {tutor && <span className="rounded bg-gray-100 px-1.5 py-0.5">{tutor.full_name}</span>}
+      <div className="mb-2 flex flex-wrap items-center gap-1.5 text-xs text-muted">
+        <span className="rounded bg-surface-muted px-1.5 py-0.5">{lead.source}</span>
+        {tutor && <span className="rounded bg-surface-muted px-1.5 py-0.5">{tutor.full_name}</span>}
         <span>{daysAgo === 0 ? 'обновлён сегодня' : `${daysAgo}д тишина`}</span>
       </div>
 
       <div className="flex items-center gap-1.5">
         {lead.phone && (
-          <a href={`tel:${lead.phone}`} className="rounded bg-gray-50 px-2 py-1 text-xs hover:bg-gray-100" title="Позвонить">
+          <a href={`tel:${lead.phone}`} className="rounded bg-surface-muted px-2 py-1 text-xs hover:bg-surface-muted" title="Позвонить">
             📞
           </a>
         )}
@@ -128,7 +128,7 @@ function LeadCard({
             href={`https://t.me/${lead.telegram.replace('@', '')}`}
             target="_blank"
             rel="noreferrer"
-            className="rounded bg-gray-50 px-2 py-1 text-xs hover:bg-gray-100"
+            className="rounded bg-surface-muted px-2 py-1 text-xs hover:bg-surface-muted"
             title="Telegram"
           >
             ✈️
@@ -137,7 +137,7 @@ function LeadCard({
         <select
           value={lead.status}
           onChange={(e) => onStatusChange(lead.id, e.target.value as LeadStatus)}
-          className="ml-auto rounded border border-gray-200 bg-white px-1.5 py-1 text-xs"
+          className="ml-auto rounded border border-line bg-surface px-1.5 py-1 text-xs"
         >
           {LEAD_STATUSES.map((s) => (
             <option key={s.value} value={s.value}>
@@ -181,8 +181,8 @@ function LeadForm({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
-        <h2 className="mb-4 text-lg font-bold text-gray-900">Новый лид</h2>
+      <div className="w-full max-w-md rounded-xl bg-surface p-6 shadow-lg">
+        <h2 className="mb-4 text-lg font-bold text-ink">Новый лид</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
           <Field label="Имя родителя">
             <input
@@ -241,10 +241,10 @@ function LeadForm({
           </Field>
 
           <div className="flex justify-end gap-2 pt-2">
-            <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-100">
+            <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-muted hover:bg-surface-muted">
               Отмена
             </button>
-            <button type="submit" className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+            <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
               Добавить
             </button>
           </div>
@@ -257,7 +257,7 @@ function LeadForm({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-sm font-medium text-gray-700">{label}</span>
+      <span className="mb-1 block text-sm font-medium text-ink-soft">{label}</span>
       {children}
     </label>
   )

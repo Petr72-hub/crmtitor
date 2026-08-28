@@ -85,8 +85,8 @@ export default function Dashboard() {
   return (
     <div className="p-6">
       <header className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Сегодня</h1>
-        <p className="text-sm text-gray-500">
+        <h1 className="text-2xl font-bold text-ink">Сегодня</h1>
+        <p className="text-sm text-muted">
           {new Intl.DateTimeFormat('ru-RU', { weekday: 'short', day: 'numeric', month: 'long' }).format(new Date())}
         </p>
       </header>
@@ -122,25 +122,25 @@ export default function Dashboard() {
         </div>
       )}
 
-      <div className="rounded-xl border border-gray-200 bg-white p-4">
+      <div className="rounded-xl border border-line bg-surface p-4">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-gray-800">Расписание сегодня</h2>
-          <Link to="/schedule" className="text-sm font-medium text-indigo-600 hover:underline">
+          <h2 className="text-sm font-semibold text-ink">Расписание сегодня</h2>
+          <Link to="/schedule" className="text-sm font-medium text-brand hover:underline">
             Открыть →
           </Link>
         </div>
         {todayLessons.length === 0 ? (
-          <p className="py-6 text-center text-sm text-gray-400">Уроков на сегодня нет</p>
+          <p className="py-6 text-center text-sm text-faint">Уроков на сегодня нет</p>
         ) : (
-          <ul className="divide-y divide-gray-100">
+          <ul className="divide-y divide-line-soft">
             {todayLessons.map((lesson) => (
               <li key={lesson.id} className="flex items-center justify-between py-2 text-sm">
                 <div className="flex items-center gap-3">
-                  <span className="w-12 font-medium text-gray-700">{lesson.start_time.slice(0, 5)}</span>
-                  <span className="text-gray-900">
+                  <span className="w-12 font-medium text-ink-soft">{lesson.start_time.slice(0, 5)}</span>
+                  <span className="text-ink">
                     {lesson.student_name} {lesson.topic ? `— ${lesson.topic}` : ''}
                   </span>
-                  <span className="text-gray-400">{lesson.tutor_name}</span>
+                  <span className="text-faint">{lesson.tutor_name}</span>
                 </div>
                 <StatusPill status={lesson.status} />
               </li>
@@ -154,9 +154,9 @@ export default function Dashboard() {
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4">
-      <p className="text-xs font-medium tracking-wide text-gray-500">{label}</p>
-      <p className="mt-1 text-2xl font-bold text-gray-900">{value}</p>
+    <div className="rounded-xl border border-line bg-surface p-4">
+      <p className="text-xs font-medium tracking-wide text-muted">{label}</p>
+      <p className="mt-1 text-2xl font-bold text-ink">{value}</p>
     </div>
   )
 }
@@ -173,12 +173,12 @@ function StatusPill({ status }: { status: string }) {
     cancelled: 'Отменён',
   }
   return (
-    <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${map[status] ?? 'bg-gray-100 text-gray-600'}`}>
+    <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${map[status] ?? 'bg-surface-muted text-muted'}`}>
       {label[status] ?? status}
     </span>
   )
 }
 
 function PageLoading() {
-  return <div className="p-6 text-sm text-gray-400">Загрузка…</div>
+  return <div className="p-6 text-sm text-faint">Загрузка…</div>
 }

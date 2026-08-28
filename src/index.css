@@ -1,7 +1,46 @@
 @import "tailwindcss";
 
+@theme {
+  --color-page: var(--c-page);
+  --color-surface: var(--c-surface);
+  --color-surface-muted: var(--c-surface-muted);
+  --color-ink: var(--c-ink);
+  --color-ink-soft: var(--c-ink-soft);
+  --color-muted: var(--c-muted);
+  --color-faint: var(--c-faint);
+  --color-line: var(--c-line);
+  --color-line-soft: var(--c-line-soft);
+  --color-brand: #4169ff;
+  --color-brand-dark: #2f4fd6;
+  --color-lime: #c7ff2f;
+}
+
 :root {
   color-scheme: light;
+  --c-page: #f4f5f7;
+  --c-surface: #ffffff;
+  --c-surface-muted: #f3f4f6;
+  --c-ink: #111111;
+  --c-ink-soft: #374151;
+  --c-muted: #6b7280;
+  --c-faint: #9ca3af;
+  --c-line: #e5e7eb;
+  --c-line-soft: #f0f1f3;
+  --pattern-opacity: 0;
+}
+
+:root.dark {
+  color-scheme: dark;
+  --c-page: #0a0a0a;
+  --c-surface: #161616;
+  --c-surface-muted: #1f1f1f;
+  --c-ink: #f5f5f5;
+  --c-ink-soft: #d4d4d4;
+  --c-muted: #a3a3a3;
+  --c-faint: #6b6b6b;
+  --c-line: #2c2c2c;
+  --c-line-soft: #232323;
+  --pattern-opacity: 0.14;
 }
 
 html, body, #root {
@@ -11,7 +50,27 @@ html, body, #root {
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: #f4f5f7;
+  background-color: var(--c-page);
+  color: var(--c-ink);
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("/pattern.svg");
+  background-size: 480px 480px;
+  background-repeat: repeat;
+  opacity: var(--pattern-opacity);
+  transition: opacity 0.2s ease;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
 }
 
 * {
@@ -20,7 +79,7 @@ body {
 
 @layer components {
   .input {
-    @apply w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500;
+    @apply w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand;
   }
 }
 
@@ -29,6 +88,6 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: var(--c-line);
   border-radius: 4px;
 }
