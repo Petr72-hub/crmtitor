@@ -65,7 +65,7 @@ export default function Schedule() {
   async function loadRefs() {
     const [{ data: st }, { data: tu }] = await Promise.all([
       supabase.from('students').select('*').order('child_name'),
-      supabase.from('profiles').select('*').order('full_name'),
+      supabase.from('profiles').select('*').in('role', ['owner', 'admin', 'tutor']).order('full_name'),
     ])
     setStudents((st as Student[]) ?? [])
     setTutors((tu as Profile[]) ?? [])

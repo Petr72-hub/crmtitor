@@ -22,7 +22,7 @@ export default function Finance() {
       supabase.from('payments').select('*').order('paid_at', { ascending: false }),
       supabase.from('payouts').select('*').order('paid_at', { ascending: false }),
       supabase.from('students').select('*'),
-      supabase.from('profiles').select('*').order('full_name'),
+      supabase.from('profiles').select('*').in('role', ['owner', 'admin', 'tutor']).order('full_name'),
       supabase.from('lessons').select('tutor_id').eq('status', 'done'),
     ])
     setPayments((pay as Payment[]) ?? [])

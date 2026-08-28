@@ -30,7 +30,7 @@ export default function Students() {
   }
 
   async function loadTutors() {
-    const { data } = await supabase.from('profiles').select('*').order('full_name')
+    const { data } = await supabase.from('profiles').select('*').in('role', ['owner', 'admin', 'tutor']).order('full_name')
     setTutors((data as Profile[]) ?? [])
   }
 
