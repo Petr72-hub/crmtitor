@@ -185,6 +185,7 @@ create table if not exists public.students (
   status text not null default 'active' check (status in ('active','sleeping')),
   lessons_paid int not null default 0,
   lessons_done int not null default 0,
+  price_per_lesson numeric not null default 0,
   parent_phone text not null default '',
   student_phone text not null default '',
   max_link text not null default '',
@@ -197,6 +198,7 @@ create table if not exists public.students (
 alter table public.students enable row level security;
 
 -- Апгрейд существующей базы: новые поля карточки ученика.
+alter table public.students add column if not exists price_per_lesson numeric not null default 0;
 alter table public.students add column if not exists parent_phone text not null default '';
 alter table public.students add column if not exists student_phone text not null default '';
 alter table public.students add column if not exists max_link text not null default '';
@@ -693,6 +695,33 @@ insert into public.trial_playbook_sections (section_key, title, content, sort_or
 
 Цель на первый месяц: […]', 15)
 on conflict (section_key) do nothing;
+
+-- ---------------------------------------------------------------------
+-- ПОКУПКИ ТАРИФОВ (Старт/Ускорение/Катализ). Создаётся в статусе pending,
+-- уроки зачисляются ученику только после подтверждения оплаты.
+-- ---------------------------------------------------------------------
+create table if not exists public.tariff_purchases (
+  id uuid primary key default gen_random_uuid(),
+  student_id uuid not null references public.students (id) on delete cascade,
+  tariff text not null check (tariff in ('start', 'uskorenie', 'kataliz')),
+  paid_lessons int not null,
+  free_lessons int not null,
+  total_lessons int not null,
+  price_per_lesson numeric not null,
+  amount numeric not null,
+  status text not null default 'pending' check (status in ('pending', 'confirmed', 'cancelled')),
+  created_by uuid references public.profiles (id) on delete set null,
+  created_at timestamptz not null default now(),
+  confirmed_at timestamptz
+);
+
+alter table public.tariff_purchases enable row level security;
+
+drop policy if exists "tariff_purchases_all_admin" on public.tariff_purchases;
+create policy "tariff_purchases_all_admin" on public.tariff_purchases
+  for all using (public.is_admin()) with check (public.is_admin());
+
+create index if not exists idx_tariff_purchases_student on public.tariff_purchases (student_id);
 
 -- ---------------------------------------------------------------------
 -- Индексы для скорости

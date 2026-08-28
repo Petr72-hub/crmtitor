@@ -13,7 +13,7 @@ import {
   type Student,
   type StudentLevelEntry,
 } from '../types'
-import { formatDate, todayISO } from '../lib/format'
+import { formatDate, formatMoney, todayISO } from '../lib/format'
 
 const TABS = [
   { key: 'info', label: 'Информация' },
@@ -103,6 +103,32 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   )
 }
 
+function BalanceSummary({ student }: { student: Student }) {
+  const [totalPaid, setTotalPaid] = useState<number | null>(null)
+
+  useEffect(() => {
+    void load()
+  }, [student.id])
+
+  async function load() {
+    const { data } = await supabase.from('payments').select('amount').eq('student_id', student.id)
+    setTotalPaid((data ?? []).reduce((sum, p) => sum + Number(p.amount), 0))
+  }
+
+  if (totalPaid === null) return null
+
+  const owed = student.lessons_done * student.price_per_lesson
+  const balance = totalPaid - owed
+  const isDebt = balance < 0
+
+  return (
+    <div className={`rounded-lg px-3 py-2 text-sm font-medium ${isDebt ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+      Проведено уроков на {formatMoney(owed)} · оплачено {formatMoney(totalPaid)} ·{' '}
+      {isDebt ? `недоплата ${formatMoney(Math.abs(balance))}` : `баланс +${formatMoney(balance)}`}
+    </div>
+  )
+}
+
 function InfoTab({
   student,
   tutors,
@@ -131,6 +157,7 @@ function InfoTab({
         tutor_id: form.tutor_id || null,
         status: form.status,
         lessons_paid: form.lessons_paid,
+        price_per_lesson: form.price_per_lesson,
         parent_phone: form.parent_phone,
         student_phone: form.student_phone,
         max_link: form.max_link,
@@ -197,19 +224,24 @@ function InfoTab({
             <option value="sleeping">Спит</option>
           </select>
         </Field>
-        <Field label="Оплачено уроков">
+        <Field label="Стоимость урока, ₽">
           <input
             type="number"
             min={0}
-            value={form.lessons_paid}
-            onChange={(e) => setForm({ ...form, lessons_paid: Number(e.target.value) })}
+            value={form.price_per_lesson}
+            onChange={(e) => setForm({ ...form, price_per_lesson: Number(e.target.value) })}
             className="input"
           />
+        </Field>
+        <Field label="Доступно занятий (из тарифов)">
+          <input value={Math.max(form.lessons_paid - form.lessons_done, 0)} disabled className="input opacity-60" />
         </Field>
         <Field label="Проведено уроков">
           <input value={form.lessons_done} disabled className="input opacity-60" />
         </Field>
       </div>
+
+      <BalanceSummary student={student} />
 
       <label className="flex items-center gap-2">
         <input

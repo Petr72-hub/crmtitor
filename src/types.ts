@@ -75,6 +75,7 @@ export interface Student {
   status: StudentStatus
   lessons_paid: number
   lessons_done: number
+  price_per_lesson: number
   parent_phone: string
   student_phone: string
   max_link: string
@@ -228,6 +229,31 @@ export interface Payment {
   paid_at: string
   method: string
   created_at: string
+}
+
+export type TariffKey = 'start' | 'uskorenie' | 'kataliz'
+
+export const TARIFFS: { key: TariffKey; label: string; paidLessons: number; freeLessons: number }[] = [
+  { key: 'start', label: 'Старт', paidLessons: 7, freeLessons: 1 },
+  { key: 'uskorenie', label: 'Ускорение', paidLessons: 13, freeLessons: 3 },
+  { key: 'kataliz', label: 'Катализ', paidLessons: 27, freeLessons: 5 },
+]
+
+export type TariffPurchaseStatus = 'pending' | 'confirmed' | 'cancelled'
+
+export interface TariffPurchase {
+  id: string
+  student_id: string
+  tariff: TariffKey
+  paid_lessons: number
+  free_lessons: number
+  total_lessons: number
+  price_per_lesson: number
+  amount: number
+  status: TariffPurchaseStatus
+  created_by: string | null
+  created_at: string
+  confirmed_at: string | null
 }
 
 export interface Payout {

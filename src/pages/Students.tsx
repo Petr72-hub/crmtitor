@@ -180,6 +180,7 @@ function StudentForm({
     goal: '',
     tutor_id: '',
     lessons_paid: 0,
+    price_per_lesson: 0,
   })
 
   function handleSubmit(e: FormEvent) {
@@ -221,16 +222,28 @@ function StudentForm({
               ))}
             </select>
           </label>
-          <label className="block">
-            <span className="mb-1 block text-sm font-medium text-ink-soft">Оплачено уроков</span>
-            <input
-              type="number"
-              min={0}
-              value={form.lessons_paid}
-              onChange={(e) => setForm({ ...form, lessons_paid: Number(e.target.value) })}
-              className="input"
-            />
-          </label>
+          <div className="grid grid-cols-2 gap-3">
+            <label className="block">
+              <span className="mb-1 block text-sm font-medium text-ink-soft">Оплачено уроков</span>
+              <input
+                type="number"
+                min={0}
+                value={form.lessons_paid}
+                onChange={(e) => setForm({ ...form, lessons_paid: Number(e.target.value) })}
+                className="input"
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm font-medium text-ink-soft">Стоимость урока, ₽</span>
+              <input
+                type="number"
+                min={0}
+                value={form.price_per_lesson}
+                onChange={(e) => setForm({ ...form, price_per_lesson: Number(e.target.value) })}
+                className="input"
+              />
+            </label>
+          </div>
 
           <div className="flex justify-end gap-2 pt-2">
             <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-muted hover:bg-surface-muted">

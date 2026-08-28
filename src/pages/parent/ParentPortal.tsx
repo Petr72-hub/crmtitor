@@ -38,7 +38,7 @@ export default function ParentPortal() {
   if (loading) return <div className="flex min-h-screen items-center justify-center text-sm text-faint">Загрузка…</div>
   if (!student) return <div className="flex min-h-screen items-center justify-center text-sm text-faint">Карточка не найдена</div>
 
-  const balance = student.lessons_paid - student.lessons_done
+  const available = Math.max(student.lessons_paid - student.lessons_done, 0)
 
   return (
     <div className="min-h-screen bg-page">
@@ -63,10 +63,9 @@ export default function ParentPortal() {
       </header>
 
       <main className="mx-auto max-w-3xl space-y-6 p-6">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4">
           <Stat label="Уроков проведено" value={String(student.lessons_done)} />
-          <Stat label="Уроков оплачено" value={String(student.lessons_paid)} />
-          <Stat label="Баланс" value={String(balance)} warn={balance < 0} />
+          <Stat label="Доступно занятий" value={String(available)} warn={available === 0} />
         </div>
 
         <section className="rounded-xl border border-line bg-surface p-4">
