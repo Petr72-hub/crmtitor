@@ -221,11 +221,12 @@ function ParentsList({ onError }: { onError: (msg: string) => void }) {
 
   async function load() {
     setLoading(true)
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('profiles')
-      .select('*, students(id, child_name, parent_name)')
+      .select('*, students!parent_of(id, child_name, parent_name)')
       .eq('role', 'parent')
       .order('created_at')
+    if (error) onError(error.message)
     setParents((data as ParentRow[]) ?? [])
     setLoading(false)
   }
