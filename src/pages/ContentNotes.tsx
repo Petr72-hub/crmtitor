@@ -53,7 +53,7 @@ export default function ContentNotes() {
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
+          className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark"
         >
           + Добавить заметку
         </button>
@@ -63,7 +63,7 @@ export default function ContentNotes() {
         <button
           onClick={() => setFilter('all')}
           className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-            filter === 'all' ? 'bg-brand text-white' : 'bg-surface-muted text-muted hover:bg-line'
+            filter === 'all' ? 'bg-lime text-lime-ink' : 'bg-surface-muted text-muted hover:bg-line'
           }`}
         >
           Все
@@ -73,7 +73,7 @@ export default function ContentNotes() {
             key={p.value}
             onClick={() => setFilter(p.value)}
             className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-              filter === p.value ? 'bg-brand text-white' : 'bg-surface-muted text-muted hover:bg-line'
+              filter === p.value ? 'bg-lime text-lime-ink' : 'bg-surface-muted text-muted hover:bg-line'
             }`}
           >
             {p.label}
@@ -160,7 +160,7 @@ function NoteForm({
             <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-muted hover:bg-surface-muted">
               Отмена
             </button>
-            <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
+            <button type="submit" className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark">
               Добавить
             </button>
           </div>

@@ -76,7 +76,7 @@ export default function StudentDetail() {
             key={t.key}
             onClick={() => setTab(t.key)}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium ${
-              tab === t.key ? 'bg-brand text-white' : 'text-muted hover:bg-surface-muted hover:text-ink'
+              tab === t.key ? 'bg-lime text-lime-ink' : 'text-muted hover:bg-surface-muted hover:text-ink'
             }`}
           >
             {t.label}
@@ -222,7 +222,7 @@ function InfoTab({
       </label>
 
       <div className="flex items-center gap-3 pt-2">
-        <button type="submit" disabled={saving} className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50">
+        <button type="submit" disabled={saving} className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark disabled:opacity-50">
           {saving ? 'Сохраняем…' : 'Сохранить'}
         </button>
         {savedMsg && <span className="text-sm text-green-600">Сохранено</span>}
@@ -291,7 +291,7 @@ function LevelTab({ studentId }: { studentId: string }) {
         <Field label="Заметки">
           <textarea rows={3} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} className="input" />
         </Field>
-        <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
+        <button type="submit" className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark">
           Добавить
         </button>
       </form>
@@ -366,7 +366,7 @@ function InterviewTab({ student, onUpdate }: { student: Student; onUpdate: (s: S
         </div>
       ))}
       <div className="flex items-center gap-3">
-        <button onClick={handleSave} disabled={saving} className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50">
+        <button onClick={handleSave} disabled={saving} className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark disabled:opacity-50">
           {saving ? 'Сохраняем…' : 'Сохранить'}
         </button>
         {savedMsg && <span className="text-sm text-green-600">Сохранено</span>}
@@ -435,7 +435,7 @@ function MocksTab({ studentId }: { studentId: string }) {
         <Field label="Заметки">
           <textarea rows={2} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} className="input" />
         </Field>
-        <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
+        <button type="submit" className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark">
           Добавить
         </button>
       </form>
@@ -525,7 +525,7 @@ function HomeworkTab({ studentId }: { studentId: string }) {
         <Field label="Описание">
           <textarea rows={2} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" />
         </Field>
-        <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
+        <button type="submit" className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark">
           Добавить
         </button>
       </form>
@@ -680,7 +680,7 @@ function CreateParentForm({
           className="input"
         />
       </Field>
-      <button type="submit" disabled={saving} className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50">
+      <button type="submit" disabled={saving} className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark disabled:opacity-50">
         {saving ? 'Создаём…' : 'Создать доступ'}
       </button>
     </form>

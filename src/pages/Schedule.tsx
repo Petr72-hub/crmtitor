@@ -172,7 +172,7 @@ export default function Schedule() {
                 key={value}
                 onClick={() => setView(value)}
                 className={`rounded-md px-3 py-1 text-sm font-medium transition-colors ${
-                  view === value ? 'bg-brand text-white' : 'text-muted hover:text-ink'
+                  view === value ? 'bg-lime text-lime-ink' : 'text-muted hover:text-ink'
                 }`}
               >
                 {label}
@@ -190,7 +190,7 @@ export default function Schedule() {
           </button>
           <button
             onClick={() => openAddForm()}
-            className="rounded-lg bg-brand px-4 py-1.5 text-sm font-semibold text-white hover:bg-brand-dark"
+            className="rounded-lg bg-lime px-4 py-1.5 text-sm font-semibold text-lime-ink hover:bg-lime-dark"
           >
             + Урок
           </button>
@@ -328,7 +328,7 @@ function MonthGrid({
               <div className="mb-1 flex items-center justify-between">
                 <span
                   className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold ${
-                    isToday ? 'bg-brand text-white' : inMonth ? 'text-ink' : 'text-faint'
+                    isToday ? 'bg-lime text-lime-ink' : inMonth ? 'text-ink' : 'text-faint'
                   }`}
                 >
                   {day.getDate()}
@@ -463,7 +463,7 @@ function LessonForm({
             <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-muted hover:bg-surface-muted">
               Отмена
             </button>
-            <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
+            <button type="submit" className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark">
               Добавить
             </button>
           </div>

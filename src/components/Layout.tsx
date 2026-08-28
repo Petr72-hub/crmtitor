@@ -34,10 +34,10 @@ export default function Layout() {
         )}
       >
         <div className="flex items-center gap-2 px-4 py-4">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-sm font-bold text-white">
-            C
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-black p-1.5">
+            <img src="/logo.svg" alt="КЭТАЛИЗАТОР" className="h-full w-full" />
           </div>
-          {!collapsed && <span className="text-lg font-bold text-ink">MyCRM</span>}
+          {!collapsed && <span className="font-heading text-xl tracking-wide text-ink">КЭТАЛИЗАТОР</span>}
         </div>
 
         <nav className="flex-1 space-y-1 overflow-y-auto px-2">

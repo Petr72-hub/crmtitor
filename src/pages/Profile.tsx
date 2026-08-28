@@ -63,7 +63,7 @@ export default function ProfilePage() {
         <h2 className="mb-3 text-sm font-semibold text-ink">Имя</h2>
         <div className="flex gap-2">
           <input value={fullName} onChange={(e) => setFullName(e.target.value)} className="input" />
-          <button type="submit" disabled={saving} className="shrink-0 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50">
+          <button type="submit" disabled={saving} className="shrink-0 rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark disabled:opacity-50">
             Сохранить
           </button>
         </div>

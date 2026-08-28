@@ -70,7 +70,7 @@ export default function Analytics() {
               key={opt.value}
               onClick={() => setRange(opt.value)}
               className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-                range === opt.value ? 'bg-brand text-white' : 'bg-surface-muted text-muted hover:bg-line'
+                range === opt.value ? 'bg-lime text-lime-ink' : 'bg-surface-muted text-muted hover:bg-line'
               }`}
             >
               {opt.label}

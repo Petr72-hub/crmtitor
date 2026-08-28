@@ -62,7 +62,7 @@ export default function Students() {
         {profile?.role !== 'tutor' && (
           <button
             onClick={() => setShowForm(true)}
-            className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
+            className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark"
           >
             + Добавить ученика
           </button>
@@ -88,7 +88,7 @@ export default function Students() {
             key={value}
             onClick={() => setFilter(value)}
             className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-              filter === value ? 'bg-brand text-white' : 'bg-surface-muted text-muted hover:bg-line'
+              filter === value ? 'bg-lime text-lime-ink' : 'bg-surface-muted text-muted hover:bg-line'
             }`}
           >
             {label}
@@ -236,7 +236,7 @@ function StudentForm({
             <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-muted hover:bg-surface-muted">
               Отмена
             </button>
-            <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
+            <button type="submit" className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark">
               Добавить
             </button>
           </div>

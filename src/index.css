@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -13,6 +14,10 @@
   --color-brand: #4169ff;
   --color-brand-dark: #2f4fd6;
   --color-lime: #c7ff2f;
+  --color-lime-dark: #aee619;
+  --color-lime-ink: #111111;
+  --font-heading: "Bebas Neue", "Montserrat", sans-serif;
+  --font-sans: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 :root {
@@ -49,10 +54,16 @@ html, body, #root {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   background-color: var(--c-page);
   color: var(--c-ink);
   position: relative;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 body::before {
@@ -80,6 +91,7 @@ body::before {
 @layer components {
   .input {
     @apply w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand;
+    font-family: var(--font-sans);
   }
 }
 

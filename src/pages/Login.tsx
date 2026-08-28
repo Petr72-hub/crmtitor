@@ -21,10 +21,10 @@ export default function Login() {
     <div className="flex min-h-screen items-center justify-center bg-surface-muted px-4">
       <div className="w-full max-w-sm rounded-2xl bg-surface p-8 shadow-sm">
         <div className="mb-6 flex flex-col items-center">
-          <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-brand text-xl font-bold text-white">
-            C
+          <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-black p-3">
+            <img src="/logo.svg" alt="КЭТАЛИЗАТОР" className="h-full w-full" />
           </div>
-          <h1 className="text-xl font-bold text-ink">MyCRM</h1>
+          <h1 className="font-heading text-2xl tracking-wide text-ink">КЭТАЛИЗАТОР</h1>
           <p className="mt-1 text-sm text-muted">Войдите в свой аккаунт</p>
         </div>
 
@@ -59,7 +59,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
+            className="w-full rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark disabled:opacity-50"
           >
             {loading ? 'Входим…' : 'Войти'}
           </button>

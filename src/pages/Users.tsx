@@ -83,7 +83,7 @@ export default function Users() {
         {isOwner && view === 'staff' && (
           <button
             onClick={() => setShowForm(true)}
-            className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
+            className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark"
           >
             + Добавить сотрудника
           </button>
@@ -100,7 +100,7 @@ export default function Users() {
         <button
           onClick={() => setView('staff')}
           className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-            view === 'staff' ? 'bg-brand text-white' : 'bg-surface-muted text-muted hover:bg-line'
+            view === 'staff' ? 'bg-lime text-lime-ink' : 'bg-surface-muted text-muted hover:bg-line'
           }`}
         >
           Сотрудники
@@ -108,7 +108,7 @@ export default function Users() {
         <button
           onClick={() => setView('parents')}
           className={`rounded-full px-3 py-1.5 text-sm font-medium ${
-            view === 'parents' ? 'bg-brand text-white' : 'bg-surface-muted text-muted hover:bg-line'
+            view === 'parents' ? 'bg-lime text-lime-ink' : 'bg-surface-muted text-muted hover:bg-line'
           }`}
         >
           Родители
@@ -389,7 +389,7 @@ function CreateStaffForm({ onClose, onCreated }: { onClose: () => void; onCreate
             <button
               type="submit"
               disabled={saving}
-              className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
+              className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark disabled:opacity-50"
             >
               {saving ? 'Создаём…' : 'Создать'}
             </button>

@@ -84,7 +84,7 @@ export default function TrialPlaybook() {
                   <button
                     onClick={() => saveEdit(section.id)}
                     disabled={saving}
-                    className="rounded-lg bg-brand px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
+                    className="rounded-lg bg-lime px-3 py-1.5 text-sm font-semibold text-lime-ink hover:bg-lime-dark disabled:opacity-50"
                   >
                     Сохранить
                   </button>

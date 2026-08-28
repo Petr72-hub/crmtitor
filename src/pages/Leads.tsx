@@ -45,7 +45,7 @@ export default function Leads() {
         <h1 className="text-2xl font-bold text-ink">Лиды · {total}</h1>
         <button
           onClick={() => setShowForm(true)}
-          className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
+          className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark"
         >
           + Добавить лида
         </button>
@@ -244,7 +244,7 @@ function LeadForm({
             <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-sm text-muted hover:bg-surface-muted">
               Отмена
             </button>
-            <button type="submit" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
+            <button type="submit" className="rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-lime-ink hover:bg-lime-dark">
               Добавить
             </button>
           </div>
